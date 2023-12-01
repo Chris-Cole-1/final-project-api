@@ -24,7 +24,9 @@ mongoose
   });
 
 const app = express();
+const cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,6 +43,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use("/api/account", routes);
+app.use("/accounts", routes);
 
 export default app;
