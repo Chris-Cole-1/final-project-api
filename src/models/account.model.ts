@@ -17,7 +17,7 @@ const accountSchema: Schema = new Schema({
   phone: { type: String, required: true, unique: true },
   active: { type: Boolean, required: true },
   vehicle: { type: String, required: true },
-  price: { type: String, required: true },
+  price: { type: Number, required: true },
   venmo: { type: String, required: true },
 });
 
