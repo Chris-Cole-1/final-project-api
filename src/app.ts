@@ -9,12 +9,6 @@ const password = encodeURIComponent("Starwars1977!");
 mongoose
   .connect(
     `mongodb+srv://${username}:${password}@cluster0.ymjlhsq.mongodb.net/?retryWrites=true&w=majority`,
-    // {
-    //   useNewUrlParser: true,
-    //   useFindAndModify: false,
-    //   useUnifiedTopology: true,
-    //   useCreateIndex: true,
-    // }
   )
   .then(() => {
     console.log("connected to database!");

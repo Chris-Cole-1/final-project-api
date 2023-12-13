@@ -1,12 +1,12 @@
 import bcrypt from "bcryptjs";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 //import jwt from "jsonwebtoken";
 //import nodemailer from "nodemailer";
 import Account, { Acc} from "../models/account.model";
 
 export default class AccountController {
 
-  signUp = (req: Request, res: Response, next: NextFunction) => {
+  signUp = (req: Request, res: Response) => {
     console.log('SignUp Called!');
     console.log(req.body);
     bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -22,22 +22,22 @@ export default class AccountController {
       account.save()
     .then((result) => {
       console.log(result);
-      res.status(201).json({ message: "User Created", result: result });
+      res.status(201).json({ message: "Account Created!", result: result });
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: "Account already registered", });
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ message: "ERROR: Account already registered", });
     });
     });
   };
 
-  login = (req: Request, res: Response, next: NextFunction) => {
+  login = (req: Request, res: Response) => {
     let fetchedUser: Acc;
     Account.findOne({ email: req.body.phone })
       .then((account: Acc | null) => {
         if (!account) {
           res.status(401).json({
-            message: "Auth failed",
+            message: "Login failed",
           });
         } else {
           fetchedUser = account;
@@ -47,7 +47,7 @@ export default class AccountController {
       .then((result) => {
         if (!result) {
           res.status(401).json({
-            message: "Auth failed",
+            message: "Login failed",
           });
         }
         res.status(200).json({
@@ -62,19 +62,20 @@ export default class AccountController {
           },
         });
       })
-      .catch((err) => {
+      .catch((error) => {
+        console.log(error);
         res.status(401).json({
-          message: "Invalid authentication credentials",
+          message: "Invalid Login Information!",
         });
       });
   };
 
-  getAccount = (req: Request, res: Response, next: NextFunction) => {
+  getAccount = (req: Request, res: Response) => {
     Account.findOne({ phone: req.params.phone, active: true})
       .then((account) => {
         if (!account) {
           res.status(401).json({
-            message: "No such User",
+            message: "Account does not exist",
           });
         } else {
           res.status(200).json({
@@ -92,16 +93,16 @@ export default class AccountController {
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).json({ message: "Could not find user" });
+        res.status(404).json({ message: "Could not find Account" });
       });
   };
 
-  getAllAccounts = (req: Request, res: Response, next: NextFunction) => {
+  getAllAccounts = (req: Request, res: Response) => {
     Account.findOne({ phone: req.params.phone })
       .then((account) => {
         if (!account) {
           res.status(401).json({
-            message: "No such User",
+            message: "Error with getting accounts",
           });
         } else {
           res.status(200).json({
@@ -119,16 +120,16 @@ export default class AccountController {
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).json({ message: "Could not find user" });
+        res.status(404).json({ message: "Could not find Account" });
       });
   };
 
-  deleteAccount = (req: Request, res: Response, next: NextFunction) => {
+  deleteAccount = (req: Request, res: Response) => {
     Account.findOneAndDelete({ phone: req.params.phone })
       .then((account) => {
         if (!account) {
           res.status(401).json({
-            message: "No such User",
+            message: "Account does not exist",
           });
         } else {
           res.status(200).json({
@@ -146,16 +147,16 @@ export default class AccountController {
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).json({ message: "Could not find user" });
+        res.status(404).json({ message: "Could not find Account" });
       });
   };
 
-  editAccount = (req: Request, res: Response, next: NextFunction) => {
+  editAccount = (req: Request, res: Response) => {
     Account.findOneAndUpdate({ phone: req.params.phone })
       .then((account) => {
         if (!account) {
           res.status(401).json({
-            message: "No such User",
+            message: "Account does not exist",
           });
         } else {
           res.status(200).json({
@@ -173,7 +174,7 @@ export default class AccountController {
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).json({ message: "Could not find user" });
+        res.status(404).json({ message: "Could not find Account" });
       });
   };
 }
