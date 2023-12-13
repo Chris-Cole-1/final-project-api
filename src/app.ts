@@ -2,7 +2,7 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import path from "path";
 import mongoose from "mongoose";
 import routes from "./routes/routes";
-// mongodb+srv://sapphire:793pQD6wDixN9vSQ@cluster0.fmdcl.mongodb.net/test
+
 const username = encodeURIComponent("hartcj2");
 const password = encodeURIComponent("Starwars1977!");
 
